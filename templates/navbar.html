@@ -1,0 +1,16 @@
+<div class="navbar-container">
+    <a href="/">
+        <h1>MAIN</h1>
+    </a>
+    <div class="nav-links">
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="logout-button">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        {% endif %}
+    </div>
+</div>
+<hr>
+
+

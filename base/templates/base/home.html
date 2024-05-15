@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div style="margin-top: 50px;" class="ui container">
+    {% if user.is_authenticated %}
+        <h1 class="ui center aligned header">Мой менеджер задач</h1>
+        <h3 class="text_style">Управляй своим временем</h3>
+        <form class="ui form flex-form" action="{% url 'add' %}" method="post">
+            {% csrf_token %}
+            <div class="field flex-field">
+                <label>Новая задача</label>
+                <input type="text" name="title" placeholder="Введите название задачи">
+                <button class="ui teal basic button" type="submit">Добавить</button>
+            </div>
+        </form>
+
+        {% for todo in todos %}
+        <div class="ui segment">
+            <p class="ui big header">№{{ todo.id }} {{ todo.title }}</p>
+            {% if not todo.is_complete %}
+                <span class="ui gray label">Не завершено</span>
+                <a class="ui primary basic button" href="{% url 'update' todo_id=todo.id %}">Завершить</a>
+            {% else %}
+                <span class="ui green label">Завершено</span>
+                <a class="ui blue button" href="{% url 'update' todo_id=todo.id %}">Открыть</a>
+            {% endif %}
+            <a class="ui negative basic button" href="{% url 'delete' todo_id=todo.id %}">Удалить</a>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="ui center aligned container">
+            <a href="{% url 'login' %}" class="ui primary button">Login</a>
+            <a href="{% url 'register' %}" class="ui secondary button">Register</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+
